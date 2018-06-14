@@ -158,7 +158,7 @@ For simplicity of exposition assume that the horizontal directions will be perio
 \[\hat{q}_n(\bm{k},t),\quad\hat{\psi}_n(\bm{k},t)\]
 are the Fourier transforms of $\breve q_n$ and $\breve\psi_n$, respectively, and define vectors $\hat{\bm{q}}$ and $\hat{\bm{\psi}}$ whose $n^\text{th}$ elements are $\hat{q}_n(\bm{k},t)$ and $\hat{\psi}_n(\bm{k},t)$, respectively, for $n=1,\ldots,\sN$.
 Using the Galerkin conditions, the PV inversion takes the form
-\[\mat{B}\hat{\bm{q}} -\hat{\vartheta}^+\bm{p}^++\hat{\vartheta}^-\bm{p}^- = -k^2\mat{M}\hat{\bm{\psi}}-\mat{L}\hat{\bm{\psi}}\]
+\[\mat{B}\hat{\bm{q}} -\hat{\vartheta}^+\bm{p}^++\hat{\vartheta}^-\bm{p}^- = -k^2\mat{M}\hat{\bm{\psi}}-\mat{L}\hat{\bm{\psi}}\tag{C}\]
 where
 \[\left(\bm{p}^+\right)_j = p_j^\psi(1),\;\;\left(\bm{p}^-\right)_j = p_j^\psi(0),\]
 \[\mat{B}_{ij} = \int p_i^\psi(z)p_j^q(z)\text{d}z,\;\;\mat{M}_{ij}=\int p_i^\psi(z)p_j^\psi(z)\text{d}z,\;\;\mat{L}_{ij} = \int \frac{f_0^2}{H^2N^2}(\pd{z}p_i^\psi(z))(\pd{z}p_j^\psi(z))\text{d}z\]
@@ -263,59 +263,61 @@ We can linearize the PDE about this equilibrium solution to see whether it is st
 Instability of this kind of equilibrium in the QG equations is one example of something called `baroclinic' instability.
 The linearized equations are
 \begin{gather}
-\pd{t}\vartheta^+ + \bar u^+\pd{x}\vartheta^+-\frac{f_0^2}{H^2N^2}(\pd{x}\psi^+)\dd{\bar u^+}{z}{} = 0\\
+\pd{t}\vartheta^+ + \bar u^+\pd{x}\vartheta^++(\pd{x}\psi^+)\pd{y}\bar\vartheta^+ = 0\\
 \pd{t}q+\bar u(z) \pd{x}q + (\pd{x}\psi)\pd{y}\bar q+\beta (\pd{x}\psi) = 0\\
-\pd{t}\vartheta^- + \bar u^-\pd{x}\vartheta^--\frac{f_0^2}{H^2N^2}(\pd{x}\psi^-)\dd{\bar u^-}{z}{} = 0\\
+\pd{t}\vartheta^- + \bar u^-\pd{x}\vartheta^-+(\pd{x}\psi^-)\pd{y}\bar\vartheta^- = 0\\
 \nabla^2\psi + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\psi}{z}{}\right) = q-\vartheta^+\delta(z-1)+\vartheta^-\delta(z)
 \end{gather}
 Coefficients don't vary in the horizontal, so we take the Fourier transform
 \begin{gather}
-\pd{t}\hat{\vartheta}^+ + \imag k_x\bar u^+\hat{\vartheta}^+-\imag k_x\frac{f_0^2}{H^2N^2}\dd{\bar u^+}{z}{}\hat{\psi}^+ = 0\\
+\pd{t}\hat{\vartheta}^+ + \imag k_x\bar u^+\hat{\vartheta}^++\imag k_x(\pd{y}\bar\vartheta^+)\hat{\psi}^+ = 0\\
 \pd{t}\hat{q}+\imag k_x\bar u(z) \hat{q} + \imag k_x(\pd{y}\bar{q})\hat{\psi}+\imag k_x\beta \hat{\psi} = 0\\
-\pd{t}\hat{\vartheta}^- + \imag k_x\bar u^-\hat{\vartheta}^--\imag k_x\dd{\bar u^-}{z}{}\frac{f_0^2}{H^2N^2}\hat{\psi}^- = 0\\
+\pd{t}\hat{\vartheta}^- + \imag k_x\bar u^-\hat{\vartheta}^-+\imag k_x(\pd{y}\bar\vartheta^-)\hat{\psi}^- = 0\\
 -(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
 \end{gather}
 We look for exponential growth so we try to find solutions with $\pd{t}\hat{q} = -\imag k_x c\hat{q}$
 \begin{gather}
--c\hat{\vartheta}^+ + \bar u^+\hat{\vartheta}^+-\frac{f_0^2}{H^2N^2}\dd{\bar u^+}{z}{}\hat{\psi}^+ = 0\\
+-c\hat{\vartheta}^+ + \bar u^+\hat{\vartheta}^++(\pd{y}\bar\vartheta^+)\hat{\psi}^+ = 0\\
 -c\hat{q}+\bar u(z) \hat{q} +(\pd{y}\bar q)\hat{\psi}+\beta \hat{\psi} = 0\\
--c\hat{\vartheta}^- + \bar u^-\hat{\vartheta}^--\dd{\bar u^-}{z}{}\frac{f_0^2}{H^2N^2}\hat{\psi}^- = 0\\
+-c\hat{\vartheta}^- + \bar u^-\hat{\vartheta}^-+(\pd{y}\bar\vartheta^-)\hat{\psi}^- = 0\\
 -(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
 \end{gather}
 For some careful choices of $\bar u(z)$ and $N^2(z)$ the equations can be solved analytically.
 For example if $\bar u = z$, $\beta=0$, and $N^2(z) = N^2$ it is the `Eady' problem.
 More generally you have to discretize and then solve an eigenvalue problem to find $c$.\\
 
+
+The previous derivation of the linear stability problem did not adhere correctly to the philosophy of `Approximation C' from RYG16.
+The previous derivation considered the background velocity $\bar u$ to be the fundamental quantity from which others are derived.
+The natural viewpoint, taken by Approximation C, is that $q$ and $\vartheta^\pm$ are fundamental and that $\psi$ is uniquely derived from them.
+The following should be a correct formulation.
+
 To use our Galerkin formulation we need to represent the equilibrium solution using our Galerkin bases.
-First, set
-\[\bar u_\sN^G = \sum_{n=1}^\sN \bar u_n p_n^\psi(z).\]
-Given a $\bar u(z)$ we need to find $\bar u_n$. 
-We can choose these coefficients to minimize the $L^2$ norm of the error $\bar u(z) - \bar u_\sN^G(z)$, which we accomplish via a standard Galerkin condition.
-We need to solve the system of equations
+The first step would be to compute the Galerkin coefficients of $\pd{y}\bar q$, which are 
 \begin{equation}
-\sum_{k=1}^\sN \int_0^1 p_n^\psi(z)p_k^\psi(z)\bar u_k\text{d}z = \int_0^1 p_n^\psi(z)\bar u(z)\text{d}z ,\;\;n = 1,\ldots,\sN.
+(\pd{y}\bar q)_n = \int_0^1 p_n^q(z)(\pd{y}\bar q)\text{d}z.
 \end{equation}
-This is a system of the form $\mat{M}\bm{u} = \bm{b}$, and we already know how to compute {\bf M}.
-We just need a routine to compute the integrals on the RHS, e.g. using Gauss-Legendre quadrature.
+The Eady equilibrium has $\bar q=0$, which can be represented exactly in our Galerkin basis (and any basis).
+Our standard PV inversion says that we can obtain the Galerkin coefficients of $\bar u$ (in the basis $p_n^\psi$) by solving the system
+\begin{equation}
+\mat{L}\bar{\bm{u}} =\mat{B}(\pd{y}\bar{\bm{q}}) -(\pd{y}\bar{\vartheta}^+)\bm{p}^++(\pd{y}\bar{\vartheta}^-)\bm{p}^-.
+\end{equation}
 
-Next we need a Galerkin approximation for $\pd{y}\bar{q}$.
-Our standard approach tells us that
-\begin{equation}
-\mat{B}\pd{y}\bar{\bm{q}} = \mat{L}\pd{y}\bar{\bm{\psi}}+\pd{y}\bar\vartheta^+\bm{p}^+-\pd{y}\bar\vartheta^-\bm{p}^-.
-\end{equation}
-Everything on the right hand side is known, so we just need to solve for the coordinates of $\pd{y}\bar q_\sN^G$.
-Note that the elements of the vector $\pd{y}\bar{\bm{q}}$ that we solve for in the above expression are the Galerkin coefficients of $\pd{y}\bar q_\sN^G$ in the basis $p_n^q$, not $p_n^\psi$.
-
-Next we need equations for the evolution of $\hat{\vartheta}^\pm$ and $\hat{q}_n$.
-The discrete evolution equations for $\hat{\vartheta}^\pm$ are simple because $\pd{z}\bar u_\sN^G=0$ at the boundaries, even if $\pd{z}\bar u \neq0$:
-\begin{equation}
-(-c+\bar u_\sN^G(z=1))\hat{\vartheta}^+=0,\quad(-c+\bar u_\sN^G(z=0))\hat{\vartheta}^-=0.
-\end{equation}
-It will be convenient to eliminate $\hat{\psi}_n$ formally as follows
+We next discretize (27)--(29).
+The streamfunction $\hat{\psi}$ appears in these equations, but we only want evolution equations involving our basic/fundamental variables $\hat{q}$ and $\hat{\vartheta}^\pm$, so we formally eliminate $\hat{\psi}$ using
 \[\hat{\bm{\psi}} = -\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}\hat{\bm{q}} +\hat{\vartheta}^+\bm{\psi}^+-\hat{\vartheta}^-\bm{\psi}^-.\]
 The vectors $\bm{\psi}^\pm$ are
 \[\bm{\psi}^+ = \left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\bm{p}^+,\;\;\bm{\psi}^- = \left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\bm{p}^-.\]
-Once we have this, we can write the discrete PV evolution equation as follows
+We can now discretize the surface equations (27) and (29).
+These don't require Galerkin projection, and have the form
+\begin{gather}\notag
+(-c+\bar u_\sN^G(z=1))\hat{\vartheta}^+ + (\pd{y}\bar\vartheta^+)\bm{p}^+\cdot\hat{\bm{\psi}}=0\\
+(-c+\bar u_\sN^G(z=1))\hat{\vartheta}^+ + (\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot(-\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}\hat{\bm{q}} +\hat{\vartheta}^+\bm{\psi}^+-\hat{\vartheta}^-\bm{\psi}^-))=0\\\notag
+(-c+\bar u_\sN^G(z=0))\hat{\vartheta}^- + (\pd{y}\bar\vartheta^-)\bm{p}^-\cdot\hat{\bm{\psi}}=0\\
+(-c+\bar u_\sN^G(z=0))\hat{\vartheta}^- + (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot(-\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}\hat{\bm{q}} +\hat{\vartheta}^+\bm{\psi}^+-\hat{\vartheta}^-\bm{\psi}^-))=0
+\end{gather}
+
+Next we discretize the PV evolution equation (28) by inserting our Galerkin approximation and integrating against the basis functions $p_n^\psi$
 \begin{gather}
 -c\mat{B}\hat{\bm{q}} +\left[\bar{\mat{U}} -(\bar{\mat{Q}}_y+\beta\mat{M})\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1} \mat{B}\right]\hat{\bm{q}} + (\bar{\mat{Q}}_y+\beta\mat{M})(\hat{\vartheta}^+\bm{\psi}^+-\hat{\vartheta}^-\bm{\psi}^-) = 0
 \end{gather}
@@ -324,9 +326,9 @@ Once we have this, we can write the discrete PV evolution equation as follows
 We can now write a generalized eigenvalue problem for $c$ as follows
 \begin{multline}
 \left[\begin{array}{c|c|c}
-\bar{u}_\sN^G(z=1)&0&0\\\hline
+\bar{u}_\sN^G(z=1)+(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^-)\\\hline
 (\bar{\mat{Q}}_y+\beta\mat{M})\bm{\psi}^+&\bar{\mat{U}} -(\bar{\mat{Q}}_y+\beta\mat{M})\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1} \mat{B}&-(\bar{\mat{Q}}_y+\beta\mat{M})\bm{\psi}^-\\\hline
-0&0&\bar{u}_\sN^G(z=0)
+ (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right) = \\
 c\left[\begin{array}{c|c|c}
 1&0&0\\\hline
@@ -334,27 +336,46 @@ c\left[\begin{array}{c|c|c}
 0&0&1
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right)
 \end{multline}
-The top and bottom rows require either $c = \bar u_\sN^G(z=1) = \bar u_\sN^G(z=0)$ or $\hat{\vartheta}^\pm=0$.
-The only realistic option is the latter, so the eigenvalue problem simplifies to
-\begin{equation}
-\left[\bar{\mat{U}} -(\bar{\mat{Q}}_y+\beta\mat{M})\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1} \mat{B}\right]\hat{\bm{q}} = c\mat{B}\hat{\bm{q}}.
-\end{equation}
+
 \clearpage
 The linear instability analysis will in general proceed as follows
 \begin{itemize}
-\item Choose $\bar{u}$ and $N^2(z)$. (and $f_0$ and $H$ and $\beta$ and $\sN$)
-\item Use (31) and (32) to construct the Galerkin approximations $\bar u_\sN^G$ and $\pd{y}\bar q_\sN^G$.
+\item Choose $\bar{u}$ and $N^2(z)$. (and $f_0$ and $H$ and $\beta$ and $\sN$) Use this to construct $\bar{q}$ and $\bar{\vartheta}^\pm$. Do this step analytically.
+\item Use (31) and (32) to construct the Galerkin approximations $\pd{y}\bar q_\sN^G$ and $\bar u_\sN^G$, respectively. The code takes as input a function that evaluates $\pd{y}\bar{q}$, and scalar values for $\pd{y}\bar\vartheta^\pm$.
 \item Construct all the matrices {\bf B}, {\bf M}, {\bf L}, $\bar{\mat{U}}$, $\bar{\mat{Q}}_y$
 \item Construct the matrices in (36) and pass the whole thing to a generalized eigenvalue solver, searcing for the eigenvalue with largest imaginary part. If the imaginary part of the eigenvalue is positive then there is exponential growth with rate $k_x$ times the imaginary part of $c$.
-If you don't want to use a generalized eigenvalue solver, you could just find eigenvalues of the matrix
-\[\mat{B}^{-1}\left[\bar{\mat{U}} -(\bar{\mat{Q}}_y+\beta\mat{M})\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1} \mat{B}\right].\]
 \end{itemize}
-Note that despite what I said in the previous sections about using the diagonalizing basis, this entire section still uses the Shen/Legendre bases.
-In particular, the eigenvector will be coefficients of $q_\sN^G$ in the Legendre basis.
 
+The Eady and `Green' problems simplify considerably, which is why they were considered in RYG16.
+In both the Eady and Green problems $\bar{q} = 0$, which implies $\bar{\mat{Q}}=0$.
+In the Eady problem we also have $\beta=0$.
+In the Eady problem the generalized eigenvalue problem reduces to 
+\begin{multline}
+\left[\begin{array}{c|c|c}
+\bar{u}_\sN^G(z=1)+(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^-)\\\hline
+0&\bar{\mat{U}}&0\\\hline
+ (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
+\end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right) = \\
+c\left[\begin{array}{c|c|c}
+1&0&0\\\hline
+0&\mat{B}&0\\\hline
+0&0&1
+\end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right)
+\end{multline}
+The spectrum can be decomposed into two parts.
+The first part satisfies $\bar{\mat{U}}\hat{\bm{q}} = c\mat{B}\bar{\bm{q}}$.
+Once these eigenvalues and vectors are obtained, you can plug them back in to solve for $\hat{\vartheta}^\pm$.
+We expect this part of the problem to be stable, i.e.~all eigenvalues $c$ should be real, or have negative imaginary part.
+This can be tested just by computing the eigenvalues of the generalized eigenvalue problem $\bar{\mat{U}}\hat{\bm{q}} = c\mat{B}\bar{\bm{q}}$.
 
-
-
+The second part has $\hat{\bm{q}} = 0$, leaving only the $2\times 2$ subsystem
+\begin{equation}
+\left[\begin{array}{cc}
+\bar{u}_\sN^G(z=1)+(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^+) & -(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^-)\\
+ (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
+\end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right) = c\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right).
+\end{equation}
+This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.
 
 
 
