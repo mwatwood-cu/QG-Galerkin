@@ -17,7 +17,7 @@
 \newcommand{\mat}[1]{\text{\bf #1}}
 \newcommand{\imag}{\text{i}}
 \title{Finite-dimensional approximations to QG dynamics}
-\author{Ian Grooms}
+\author{Grooms, Julien, Watwood}
 \date{Last Update: \today}
 \begin{document}
 \maketitle
@@ -27,11 +27,11 @@ The traditional inviscid, unforced continuously-stratified QG equations are
 \pd{t}\vartheta^+ + \tJ[\psi^+,\vartheta^+] = 0\\
 \pd{t}q+\tJ[\psi,q]+\beta v = 0\\
 \pd{t}\vartheta^-+ \tJ[\psi^-,\vartheta^-] = 0\\
-\nabla_h^2\psi + \pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{z}\psi\right) = q,\quad S(z) = \frac{f_0^2}{H^2N^2(z)}
+\nabla_h^2\psi + \pd{z}\left(S(z)\pd{z}\psi\right) = q,\quad S(z) = \frac{f_0^2}{H^2N^2(z)}
 \end{gather}
 where 
 \begin{equation}
-\vartheta^\pm= \frac{f_0^2}{H^2N^2}\pd{z}\psi\text{ at }z=0,1
+\vartheta^\pm= S(z)\pd{z}\psi\text{ at }z=0,1
 \end{equation}
 Notation follows Rocha et al.~(JPO 2016; RYG16).
 I have assumed that the dimensional $z$ goes from $0$ to $H$, and the above equations use a nondimensional $z$ that goes from 0 to 1.\\
@@ -49,8 +49,8 @@ The basis for $q$ does not need to be the same as the basis for $\psi$.
 If we insert these above we get
 \begin{gather}
 \pd{t}q_\sN^G+\tJ[\psi_\sN^G,q_\sN^G]+\beta \pd{x}\psi_\sN^G= r_{qt}\neq0\\
-q_\sN^G-\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{z}\psi_\sN^G\right)\right)=r_q\neq0\\
-\vartheta^++r_\vartheta^+= (f_0/(HN))^2\pd{z}\psi_\sN^G\text{ at }z=1,\text{ and }\vartheta^-+r_\vartheta^- = (f_0/(HN))^2\pd{z}\psi_\sN^G\text{ at }z=0.
+q_\sN^G-\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(S(z)\pd{z}\psi_\sN^G\right)\right)=r_q\neq0\\
+\vartheta^++r_\vartheta^+= S(z)\pd{z}\psi_\sN^G\text{ at }z=1,\text{ and }\vartheta^-+r_\vartheta^- = S(z)\pd{z}\psi_\sN^G\text{ at }z=0.
 \end{gather}
 I allow some error in the boundary conditions.
 We don't need to allow for errors in the evolution of $\vartheta^\pm$ because that equation does not directly depend on the vertical structure.
@@ -69,9 +69,9 @@ To put it another way, it is straightforward to enforce the following exact evol
 Note that because the Galerkin approximation $\psi_\sN^G$ is not equal to the true solution $\psi$ there will be a different kind of errors in the evolution of $\vartheta^\pm$, but we can still enforce the above equations to hold exactly.
 
 \clearpage
-We want our equations to conserve energy in the form $1/2\int |\nabla\psi_\sN^G|^2+(f_0/(HN))^2(\pd{z}\psi_\sN^G)^2$.
+We want our equations to conserve energy in the form $1/2\int |\nabla\psi_\sN^G|^2+S(z)(\pd{z}\psi_\sN^G)^2$.
 The standard approach to proving energy conservation is to multiply equation (7) for $\pd{t}q_\sN^G$ by $-\psi_\sN^G$, then use equation (8) to replace $q_\sN^G$, then perform multiple integrations by parts to arrive at an expression for the evolution of energy:
-\[\int-\psi_\sN^G\pd{t}\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{z}\psi_\sN^G\right) + r_q\right) = \int\psi_\sN^G(\tJ[\psi_\sN^G,q_\sN^G] - r_{qt}) = -\int\psi_\sN^Gr_{qt}.\]
+\[\int-\psi_\sN^G\pd{t}\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(S(z)\pd{z}\psi_\sN^G\right) + r_q\right) = \int\psi_\sN^G(\tJ[\psi_\sN^G,q_\sN^G] - r_{qt}) = -\int\psi_\sN^Gr_{qt}.\]
 The hope is that we can impose appropriate conditions on $r_q$ and $r_{qt}$ such that the energy is conserved.
 E.g.~a standard Galerkin condition would be to require both $r_q$ and $r_{qt}$ to be orthogonal to the span of the basis functions.
 
@@ -80,13 +80,13 @@ First, assuming appropriate lateral boundary conditions, we have
 \[\int -\psi_\sN^G\pd{t}\nabla_h^2\psi_\sN^G = \frac{1}{2}\dd{}{t}{}\int|\nabla_h\psi_\sN^G|^2.\]
 Next
 \begin{align}
-\int-\psi_\sN^G\pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{zt}\psi_\sN^G\right) &= -\int_x\left[\frac{f_0^2}{H^2N^2}\psi_\sN^G\pd{zt}\psi_\sN^G\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int\left(\frac{f}{HN}\pd{z}\psi_\sN^G\right)^2\\
-&=  -\int_x\left[\psi_\sN^G(\pd{t}\vartheta+\pd{t}r_\vartheta)\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int\left(\frac{f_0}{HN}\pd{z}\psi_\sN^G\right)^2\\
-&=  -\int_x\left[\psi_\sN^G(-\tJ[\psi_\sN^G,\vartheta]+\pd{t}r_\vartheta)\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int\left(\frac{f_0}{HN}\pd{z}\psi_\sN^G\right)^2\\
-&=-\int_x\left[\psi_\sN^G\pd{t}r_\vartheta\right]_-^++ \frac{1}{2}\dd{}{t}{}\int\left(\frac{f_0}{HN}\pd{z}\psi_\sN^G\right)^2.
+\int-\psi_\sN^G\pd{z}\left(S(z)\pd{zt}\psi_\sN^G\right) &= -\int_x\left[S(z)\psi_\sN^G\pd{zt}\psi_\sN^G\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2\\
+&=  -\int_x\left[\psi_\sN^G(\pd{t}\vartheta+\pd{t}r_\vartheta)\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2\\
+&=  -\int_x\left[\psi_\sN^G(-\tJ[\psi_\sN^G,\vartheta]+\pd{t}r_\vartheta)\right]_-^+ + \frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2\\
+&=-\int_x\left[\psi_\sN^G\pd{t}r_\vartheta\right]_-^++ \frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2.
 \end{align}
 Putting it all together,
-\[\frac{1}{2}\dd{}{t}{}\int |\nabla_h\psi_\sN^G|^2 + \left(\frac{f}{HN}\pd{z}\psi_\sN^G\right)^2 =\int_x\left[\psi_\sN^G\pd{t}r_\vartheta\right]_-^++ \int\psi_\sN^G\pd{t}r_q-\int\psi_\sN^Gr_{qt}.\]
+\[\frac{1}{2}\dd{}{t}{}\int |\nabla_h\psi_\sN^G|^2 + S(z)\left(\pd{z}\psi_\sN^G\right)^2 =\int_x\left[\psi_\sN^G\pd{t}r_\vartheta\right]_-^++ \int\psi_\sN^G\pd{t}r_q-\int\psi_\sN^Gr_{qt}.\]
 
 The idea is that the coefficients $\breve q_n$ and the boundary values $\vartheta^\pm$ are known, but the coefficients $\breve \psi_n$ and $\pd{t}\breve q_n$ are unknown.
 We can try to specify these coefficients to achieve the dual purposes of accuracy and energy conservation.
@@ -104,7 +104,7 @@ This relies on the following fact, first noted by Bretherton (1966):
 \begin{quote}
 The solution $\psi$ to (4)-(5) (with inhomogeneous Neumann boundary conditions) is the same as the solution to the following PV inversion
 \begin{equation}
-q -\vartheta^+\delta(z-1) + \vartheta^-\delta(z) = \nabla_h^2\psi + \pd{z}\left(\frac{f_0^2}{H^2N^2}\pd{z}\psi\right)
+q -\vartheta^+\delta(z-1) + \vartheta^-\delta(z) = \nabla_h^2\psi + \pd{z}\left(S(z)\pd{z}\psi\right)
 \end{equation}
 with homogeneous Neumann boundary conditions $\pd{z}\psi=0$.
 \end{quote}
@@ -113,25 +113,25 @@ We will now generalize `Approximation C' from RYG16 to a general basis.
 Suppose only that our basis $p_n^\psi$ has d$p_n^\psi(z)/$d$z = 0$ at the boundaries.
 Inserting our ansatz into the Bretherton PV inversion we find a new residual $r_q$
 \begin{equation}
-q_\sN^G -\vartheta^+\delta(z-1) + \vartheta^-\delta(z) = \nabla_h^2\psi_\sN^G + \pd{z}\left(\frac{f_0^2}{H^2N^2}\pd{z}\psi_\sN^G\right) + r_q^B.
+q_\sN^G -\vartheta^+\delta(z-1) + \vartheta^-\delta(z) = \nabla_h^2\psi_\sN^G + \pd{z}\left(S(z)\pd{z}\psi_\sN^G\right) + r_q^B.
 \end{equation}
 The superscript $B$ stands for `Bretherton' and emphasizes that this residual is different from $r_q$.
 Repeating the above analysis with the new definition of the residual $r_q^B$:
-\[\int -\psi_\sN^G\pd{t}q_\sN^G = \int -\psi_\sN^G\pd{t}\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{z}\psi_\sN^G\right)+\vartheta^+\delta(z-1)-\vartheta^-\delta(z)+r_q^B\right).\]
+\[\int -\psi_\sN^G\pd{t}q_\sN^G = \int -\psi_\sN^G\pd{t}\left(\nabla_h^2\psi_\sN^G + \pd{z}\left(S(z)\pd{z}\psi_\sN^G\right)+\vartheta^+\delta(z-1)-\vartheta^-\delta(z)+r_q^B\right).\]
 Again, 
 \[\int -\psi_\sN^G\pd{t}\nabla_h^2\psi_\sN^G = \frac{1}{2}\dd{}{t}{}\int|\nabla_h\psi_\sN^G|^2.\]
 As before
 \begin{align}
-\int-\psi_\sN^G\pd{z}\left(\frac{f_0^2}{H^2N^2(z)}\pd{zt}\psi_\sN^G\right) &= -\int_x\left[\frac{f_0^2}{H^2N^2}\psi_\sN^G\pd{zt}\psi_\sN^G\right]_0^1 + \frac{1}{2}\dd{}{t}{}\int\left(\frac{f}{HN}\pd{z}\psi_\sN^G\right)^2=\frac{1}{2}\dd{}{t}{}\int\left(\frac{f_0}{HN}\pd{z}\psi_\sN^G\right)^2.
+\int-\psi_\sN^G\pd{z}\left(S(z)\pd{zt}\psi_\sN^G\right) &= -\int_x\left[S(z)\psi_\sN^G\pd{zt}\psi_\sN^G\right]_0^1 + \frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2=\frac{1}{2}\dd{}{t}{}\int S(z)\left(\pd{z}\psi_\sN^G\right)^2.
 \end{align}
 This time we used the fact that $\pd{z}\psi_\sN^G = 0$ on the boundaries.
 We now have a new term
 \[\int-\psi_\sN^G(\pd{t}\vartheta^+\delta(z-1)-\pd{t}\vartheta^-\delta(z)) = -\int_x[\psi_\sN^G\pd{t}\vartheta]_0^1 = 0.\]
 The zero is because $\pd{t}\vartheta^\pm = -\tJ[\psi_\sN^G,\vartheta^\pm]$; multiplying by $\psi_\sN^G$ and integrating yields 0.
 This leaves
-\[\int -\psi_\sN^G\pd{t}q_\sN^G= \frac{1}{2}\dd{}{t}{}\int |\nabla_h\psi_\sN^G|^2 + \left(\frac{f}{HN}\pd{z}\psi_\sN^G\right)^2 - \int\psi_\sN^G\pd{t}r_q^B.\]
+\[\int -\psi_\sN^G\pd{t}q_\sN^G= \frac{1}{2}\dd{}{t}{}\int \left[|\nabla_h\psi_\sN^G|^2 + S(z)\left(\pd{z}\psi_\sN^G\right)^2\right] - \int\psi_\sN^G\pd{t}r_q^B.\]
 The energy equation is now
-\[\frac{1}{2}\dd{}{t}{}\int |\nabla_h\psi_\sN^G|^2 + \left(\frac{f}{HN}\pd{z}\psi_\sN^G\right)^2 = \int\psi_\sN^G\pd{t}r_q^B-\int\psi_\sN^Gr_{qt}.\]
+\[\frac{1}{2}\dd{}{t}{}\int |\nabla_h\psi_\sN^G|^2 + S(z)\left(\pd{z}\psi_\sN^G\right)^2 = \int\psi_\sN^G\pd{t}r_q^B-\int\psi_\sN^Gr_{qt}.\]
 To conserve energy we simply impose the usual Galerkin conditions that the residuals $r_q^B$ and $r_{qt}$ are orthogonal to the span of the basis functions $p_n^\psi$.
 
 To be precise, if the basis for $q$ is the same as the basis for $\psi$ then we are imposing a traditional Galerkin condition.
@@ -140,7 +140,7 @@ In this case we are enforcing one Galerkin condition and one Petrov-Galerkin con
 A Galerkin condition requires a residual to be orthogonal to the space in which an approximate solution is sought.
 The residual in the PV equation $r_q^B$ is required to be orthogonal to the span of $p_n^\psi$, and when solving the PV inversion we are seeking a solution $\psi_\sN^G$ in the span of the $p_n^\psi$, so this is a Galerkin condition.
 The solution we obtain for $\psi_\sN^G$ by imposing the Galerkin condition is optimal in the sense that it minimizes
-\[-\int(\psi-\psi_\sN^G)\left[\nabla^2(\psi-\psi_\sN^G) + \pd{z}\left(\frac{f_0^2}{H^2N^2}\pd{z}(\psi-\psi_\sN^G)\right)\right]\]
+\[-\int(\psi-\psi_\sN^G)\left[\nabla^2(\psi-\psi_\sN^G) + \pd{z}\left(S(z)\pd{z}(\psi-\psi_\sN^G)\right)\right]\]
 over all functions $\psi_\sN^G$ in the subspace.
 RYG16 makes it look like we're minimizing the $L^2$ norm of the error in $\psi$, which is not the case.
 
@@ -158,10 +158,10 @@ For simplicity of exposition assume that the horizontal directions will be perio
 \[\hat{q}_n(\bm{k},t),\quad\hat{\psi}_n(\bm{k},t)\]
 are the Fourier transforms of $\breve q_n$ and $\breve\psi_n$, respectively, and define vectors $\hat{\bm{q}}$ and $\hat{\bm{\psi}}$ whose $n^\text{th}$ elements are $\hat{q}_n(\bm{k},t)$ and $\hat{\psi}_n(\bm{k},t)$, respectively, for $n=1,\ldots,\sN$.
 Using the Galerkin conditions, the PV inversion takes the form
-\[\mat{B}\hat{\bm{q}} -\hat{\vartheta}^+\bm{p}^++\hat{\vartheta}^-\bm{p}^- = -k^2\mat{M}\hat{\bm{\psi}}-\mat{L}\hat{\bm{\psi}}\tag{C}\]
+\[\mat{B}\hat{\bm{q}} -\hat{\vartheta}^+\bm{p}^++\hat{\vartheta}^-\bm{p}^- = -k^2\mat{M}\hat{\bm{\psi}}-\mat{L}\hat{\bm{\psi}}\]
 where
 \[\left(\bm{p}^+\right)_j = p_j^\psi(1),\;\;\left(\bm{p}^-\right)_j = p_j^\psi(0),\]
-\[\mat{B}_{ij} = \int p_i^\psi(z)p_j^q(z)\text{d}z,\;\;\mat{M}_{ij}=\int p_i^\psi(z)p_j^\psi(z)\text{d}z,\;\;\mat{L}_{ij} = \int \frac{f_0^2}{H^2N^2}(\pd{z}p_i^\psi(z))(\pd{z}p_j^\psi(z))\text{d}z\]
+\[\mat{B}_{ij} = \int p_i^\psi(z)p_j^q(z)\text{d}z,\;\;\mat{M}_{ij}=\int p_i^\psi(z)p_j^\psi(z)\text{d}z,\;\;\mat{L}_{ij} = \int S(z)(\pd{z}p_i^\psi(z))(\pd{z}p_j^\psi(z))\text{d}z\]
 (in the right expression I assumed $\pd{z}p_i^\psi(z)=0$ at the boundaries and integrated by parts.)
 This is very similar to the standard finite-difference approach (see Grooms and Nadeau, Fluids 2017) where $\mat{M}$ and $\mat{B}$ would be the identity and $\mat{L}$ would be tridiagonal.
 In the modal basis (not polynomial) the basis functions are orthogonal so $\mat{M}=\mat{B}$ is diagonal, and they are eigenfunctions so $\mat{L}$ is just $\kappa_n^2\mat{I}$.
@@ -256,9 +256,9 @@ Overall the algorithm would be
 In addition to the linear instability problem we should look at how rapidly the modes and deformation radii converge in the Galerkin vs FD methods and at the convergence of the interaction coefficients.\\
 
 \hrule
-\begin{center}{\bf Linear instability problem}\end{center}
+\begin{center}{\bf Linear stability problem}\end{center}
 The following is an exact solution of the fully-nonlinear QG equations: 
-\[\bar\psi = -\bar u(z)y,\;\;\bar q = -y\dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\bar u}{z}{}\right),\;\;\bar\vartheta^\pm = -y\frac{f_0^2}{H^2N^2(z)}\dd{\bar u^\pm}{z}{}.\]
+\[\bar\psi = -\bar u(z)y,\;\;\bar q = -y\dd{}{z}{}\left(S(z)\dd{\bar u}{z}{}\right),\;\;\bar\vartheta^\pm = -yS(z)\dd{\bar u^\pm}{z}{}.\]
 We can linearize the PDE about this equilibrium solution to see whether it is stable/unstable to small perturbations.
 Instability of this kind of equilibrium in the QG equations is one example of something called `baroclinic' instability.
 The linearized equations are
@@ -266,21 +266,21 @@ The linearized equations are
 \pd{t}\vartheta^+ + \bar u^+\pd{x}\vartheta^++(\pd{x}\psi^+)\pd{y}\bar\vartheta^+ = 0\\
 \pd{t}q+\bar u(z) \pd{x}q + (\pd{x}\psi)\pd{y}\bar q+\beta (\pd{x}\psi) = 0\\
 \pd{t}\vartheta^- + \bar u^-\pd{x}\vartheta^-+(\pd{x}\psi^-)\pd{y}\bar\vartheta^- = 0\\
-\nabla^2\psi + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\psi}{z}{}\right) = q-\vartheta^+\delta(z-1)+\vartheta^-\delta(z)
+\nabla^2\psi + \dd{}{z}{}\left(S(z)\dd{\psi}{z}{}\right) = q-\vartheta^+\delta(z-1)+\vartheta^-\delta(z)
 \end{gather}
 Coefficients don't vary in the horizontal, so we take the Fourier transform
 \begin{gather}
 \pd{t}\hat{\vartheta}^+ + \imag k_x\bar u^+\hat{\vartheta}^++\imag k_x(\pd{y}\bar\vartheta^+)\hat{\psi}^+ = 0\\
 \pd{t}\hat{q}+\imag k_x\bar u(z) \hat{q} + \imag k_x(\pd{y}\bar{q})\hat{\psi}+\imag k_x\beta \hat{\psi} = 0\\
 \pd{t}\hat{\vartheta}^- + \imag k_x\bar u^-\hat{\vartheta}^-+\imag k_x(\pd{y}\bar\vartheta^-)\hat{\psi}^- = 0\\
--(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
+-(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(S(z)\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
 \end{gather}
 We look for exponential growth so we try to find solutions with $\pd{t}\hat{q} = -\imag k_x c\hat{q}$
 \begin{gather}
 -c\hat{\vartheta}^+ + \bar u^+\hat{\vartheta}^++(\pd{y}\bar\vartheta^+)\hat{\psi}^+ = 0\\
 -c\hat{q}+\bar u(z) \hat{q} +(\pd{y}\bar q)\hat{\psi}+\beta \hat{\psi} = 0\\
 -c\hat{\vartheta}^- + \bar u^-\hat{\vartheta}^-+(\pd{y}\bar\vartheta^-)\hat{\psi}^- = 0\\
--(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(\frac{f_0^2}{H^2N^2(z)}\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
+-(k_x^2+k_y^2)\hat{\psi} + \dd{}{z}{}\left(S(z)\dd{\hat{\psi}}{z}{}\right) = \hat{q} -\hat{\vartheta}^+\delta(z-1)+\hat{\vartheta}^-\delta(z).
 \end{gather}
 For some careful choices of $\bar u(z)$ and $N^2(z)$ the equations can be solved analytically.
 For example if $\bar u = z$, $\beta=0$, and $N^2(z) = N^2$ it is the `Eady' problem.
@@ -302,6 +302,22 @@ Our standard PV inversion says that we can obtain the Galerkin coefficients of $
 \begin{equation}
 \mat{L}\bar{\bm{u}} =\mat{B}(\pd{y}\bar{\bm{q}}) -(\pd{y}\bar{\vartheta}^+)\bm{p}^++(\pd{y}\bar{\vartheta}^-)\bm{p}^-.
 \end{equation}
+As noted previously, the {\bf L} matrix is singular.
+This is natural because {\bf L} is the discrete version of the operator $\pd{z}(S(z)\pd{z}\cdot)$ with homogeneous Neumann boundary conditions, which has constant functions in its null space.
+The null space of {\bf L} is also one-dimensional and corresponds to constant functions (for a polynomial basis).
+
+The Fredholm alternative tells us that a solution will exist whenever the right hand side is orthogonal to the cokernel, and since {\bf L} is symmetric the cokernel is the same as the kernel, which includes constant functions.
+More simply, the first row (and column) of {\bf L} is zero, so we need to ensure that the first entry of the RHS is also zero.
+The first row of the right hand side is the integral of $\phi_0(z) = 1$ times $\bar q_\sN^G - \bar\vartheta^+\delta(z-1)+\bar\vartheta^-\delta(z)$.
+It turns out that this is zero by construction (I will not make the argument here), though the quadrature might have something nonzero due to quadrature and/or roundoff errors.
+This shows that the RHS is always in the range of {\bf L}, so a solution always exists.
+
+At this point we know that a solution to (32) always exists, but there are in fact an infinite number of solutions.
+To arrive at a unique solution we need to constrain the null space, i.e.~we need to constrain the depth-independent (aka barotropic) part of $\bar u$.
+One natural choice would be to simply compute the first Galerkin coefficient of $\bar u$ (i.e. the coefficient corresponding to the basis function $p_1^\psi(z) = \phi_0(z) = 1$) using the integral definition.
+So the first element of the vector $\bar{\bm{u}}$ is 
+\[\int_0^1p_1^\psi(z)\bar{u}(z)\text{d}z.\]
+The remaining elements can be found by solving (32) ignoring the first row and column.
 
 We next discretize (27)--(29).
 The streamfunction $\hat{\psi}$ appears in these equations, but we only want evolution equations involving our basic/fundamental variables $\hat{q}$ and $\hat{\vartheta}^\pm$, so we formally eliminate $\hat{\psi}$ using
@@ -337,7 +353,6 @@ c\left[\begin{array}{c|c|c}
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right)
 \end{multline}
 
-\clearpage
 The linear instability analysis will in general proceed as follows
 \begin{itemize}
 \item Choose $\bar{u}$ and $N^2(z)$. (and $f_0$ and $H$ and $\beta$ and $\sN$) Use this to construct $\bar{q}$ and $\bar{\vartheta}^\pm$. Do this step analytically.
