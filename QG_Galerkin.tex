@@ -392,8 +392,60 @@ The second part has $\hat{\bm{q}} = 0$, leaving only the $2\times 2$ subsystem
 \end{equation}
 This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.
 
+\clearpage
+\hrule
+\begin{center}{\bf Linear stability problem: Finite Difference}\end{center}
+The standard vertical discretization method for both linear and nonlinear QG is a finite difference approximation.
+Details can be found almost anywhere, but there's a treatment in Grooms \& Nadeau (Fluids, 2016) that explicitly considers the treatment of surface buoyancy.
+The usual approach uses unequal spacing in the vertical direction with a goal of maximizing the accuracy for a fixed number of vertical levels by putting the resolution preferentially in places where it's needed.
+The method has been shown rigorously to converge in the absence of surface buoyancy.
+The drawback is that the approximation reduces to first order, so we will only consider an equispaced vertical grid here.
+The main reasons why the finite difference method is ubiquitous in QG are that it is easy to implement and that it exactly conserves a discrete energy.
 
+Let $\Delta_z = 1/\sN$ be the grid spacing where $\sN$ is the number of vertical levels.
+Both $\psi$ and $q$ are tracked at $\sN$ points starting at $z_1=\Delta_z/2$ and ending at $z_\sN=1-\Delta_z/2$.
+The finite difference approximation to $\nabla^2\psi+\pd{z}(S(z)\pd{z}\psi)$ at an interior point $z_k$ ($k\neq1,\sN$) is
+\begin{equation}
+\left(\nabla^2\psi+\pd{z}(S(z)\pd{z}\psi)\right)|_{z=z_k} \approx\nabla^2\psi_k+ \frac{1}{\Delta_z}\left[S_k\frac{\psi_{k+1}-\psi_k}{\Delta_z}-S_{k-1}\frac{\psi_k-\psi_{k-1}}{\Delta_z}\right] = q_k.
+\end{equation}
+I've introduced the notation $S_k = S(k\Delta_z)$.
+At the boundaries we have the following approximations
+\begin{gather}
+\left(\nabla^2\psi+\pd{z}(S(z)\pd{z}\psi)\right)|_{z=z_1} \approx \nabla^2\psi_1+\frac{1}{\Delta_z}\left[S_1\frac{\psi_{2}-\psi_1}{\Delta_z}-\vartheta^-\right] = q_1\\
+\left(\nabla^2\psi+\pd{z}(S(z)\pd{z}\psi)\right)|_{z=z_\sN} \approx \nabla^2\psi_\sN+\frac{1}{\Delta_z}\left[\vartheta^+-S_{\sN-1}\frac{\psi_\sN-\psi_{\sN-1}}{\Delta_z}\right] = q_\sN.
+\end{gather}
 
+As discussed in Grooms \& Nadeau (2016), if we define
+\begin{gather}
+Q_1 = q_1+\frac{\vartheta^-}{\Delta_z} = \nabla^2\psi_1+\frac{1}{\Delta_z}\left[S_1\frac{\psi_{2}-\psi_1}{\Delta_z}\right],\\
+Q_\sN = q_\sN-\frac{\vartheta^+}{\Delta_z} = \nabla^2\psi_\sN-\frac{1}{\Delta_z}\left[S_{\sN-1}\frac{\psi_\sN-\psi_{\sN-1}}{\Delta_z}\right]
+\end{gather}
+Then the fully nonlinear system dynamics are controlled entirely by the following system
+\begin{gather}
+\pd{t}Q_1 + \tJ[\psi_\sN,Q_1] + \beta\pd{x}\psi_1 = 0\\
+\pd{t}q_k + \tJ[\psi_k,Q_k] + \beta\pd{x}\psi_k = 0,\;\;k = 2,\ldots,\sN-1\\
+\pd{t}Q_\sN + \tJ[\psi_\sN,Q_\sN] + \beta\pd{x}\psi_\sN = 0.
+\end{gather}
+The only caveat is that by evolving this system you can't distinguish $\vartheta^\pm$ or $q_1$, $q_\sN$, but the dynamics of $\psi_k$ are completely controlled by the above system: (42)--(44) for the dynamics and (37), (40), (41) for the PV inversion.\\
+
+The discrete version of the linear stability problem is straightforward in the finite difference approximation.
+We can start with (27)--(30) and then discretize as described above.
+The discrete version is
+\[\left[\bar{\mat{U}}_{FD}\left((k_x^2+k_y^2)\mat{I}+\mat{L}_{FD}\right)-\left(\bar{\mat{Q}}_{y,FD}+ \beta\mat{I}\right)\right]\vec{\psi} = c\left[(k_x^2+k_y^2)\mat{I}+\mat{L}_{FD}\right]\vec{\psi}.\]
+
+The matrix $\bar{\mat{U}}_{FD}$ is diagonal with diagonal elements $\bar u(z_k)$.
+The matrix $\mat{L}_{FD}$ is tridiagonal with the form
+\[\mat{L}_{FD} = -\frac{1}{\Delta_z^2}\left[\begin{array}{ccccc}
+S_1&-S_1&0&\cdots&0\\
+-S_1&S_1+S_2&-S_2&&\vdots\\
+\vdots&\ddots&\ddots&\ddots&\vdots\\
+&-S_{k-1}&S_{k-1}+S_k&-S_k&\\
+\vdots&\ddots&\ddots&\ddots&\vdots\\
+0&\cdots&0&-S_{\sN-1}&S_{\sN-1}
+\end{array}\right]\]
+
+The matrix $\bar{\mat{Q}}_{y,FD}$ is also diagonal.
+If we define a vector $\bar{\bm{u}}$ whose elements are $\bar u(z_k)$, the the diagonal elements of $\bar{\mat{Q}}_{y,FD}$ are the elements of the vector $-\mat{L}_{FD}\bar{\bm{u}}$.
 
 
 \end{document}
