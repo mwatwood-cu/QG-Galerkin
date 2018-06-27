@@ -391,15 +391,19 @@ The second part has $\hat{\bm{q}} = 0$, leaving only the $2\times 2$ subsystem
  (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right) = c\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right).
 \end{equation}
-This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.\\
-
-\noindent{\bf Ocean-Charney}
-We will do a version of the ocean-Charney problem with only eastward-sheared Charney-type instability (no Phillips-type).
-This problem is interesting and a nice complement to the Eady problem because the instability has a long-wave cutoff but no short-wave cutoff (exactly the opposite of Eady).
-We will use
-\[\beta = 1, \quad\bar u(z) =2z^2,\quad\bar q = -4y,\quad\bar\vartheta^-=0,\quad\bar\vartheta^+=-4y.\]
+This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.
 
 \clearpage
+\noindent{\bf Ocean-Charney}
+There are lots of other `canonical' problems that we could do, like the Phillips problem which has $\beta\neq0$, $N^2$ constant, and $\bar u\propto \cos(\pi z)$.
+We want a problem that will stress our method, i.e.~where the solution is hard to resolve as a function of $z$.
+One way to accomplish this is with an ocean-Charney problem where the unstable modes are surface-intensified.
+We also want to demonstrate that we can handle non-constant stratification.
+One common non-constant stratification is to use an exponential profile for $N^2(z)$.
+Our ocean-Charney configuration with exponential stratification is
+\[\bar u = \frac{1}{54} \left(3 e^{6 z} (6 z-1)-2 e^6-1\right), \;\;\bar{q} = -2y,\;\;\beta = 1,\;\;\frac{f_0^2}{H^2N^2} = e^{6z},\;\;\bar\vartheta^+ = -2y,\;\;\bar{\vartheta}^-=0.\]
+There are two main questions: how rapidly does the eigenvalue converge as a function of $\sN$ at fixed $k$ (e.g. for the fastest-growing mode), and how does the range of accurate growth rates grow with $\sN$.\\
+
 \hrule
 \begin{center}{\bf Linear stability problem: Finite Difference}\end{center}
 The standard vertical discretization method for both linear and nonlinear QG is a finite difference approximation.
@@ -453,6 +457,5 @@ S_1&-S_1&0&\cdots&0\\
 
 The matrix $\bar{\mat{Q}}_{y,FD}$ is also diagonal.
 If we define a vector $\bar{\bm{u}}$ whose elements are $\bar u(z_k)$, the diagonal elements of $\bar{\mat{Q}}_{y,FD}$ are the elements of the vector $-\mat{L}_{FD}\bar{\bm{u}}$.
-
 
 \end{document}
