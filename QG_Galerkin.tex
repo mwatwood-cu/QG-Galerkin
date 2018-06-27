@@ -190,7 +190,7 @@ This is analogous to the approach taken in finite-difference approximations of t
 
 The above analysis shows that there is a diagonalizing basis.
 This diagonalizing basis approximates the modal basis.
-The elements of a column of the matrix $\mat{GQ}$ are the coordinates of a diagonalizing basis function with respect to the basis $p_n^\psi$.
+The elements of a column of the matrix $\mat{G}^{-T}\mat{Q}$ are the coordinates of a diagonalizing basis function with respect to the basis $p_n^\psi$.
 As $\sN$ increases we expect these diagonalizing basis functions to converge to the baroclinic modes of the full problem.
 This is essentially the same as what happens in the finite-difference approximation, where the eigenvectors of the matrix {\bf L} are the `discrete' baroclinic modes.\\
 
@@ -248,7 +248,7 @@ Then, to move from the coordinates in the diagonalizing basis to the values at t
 
 Overall the algorithm would be 
 \begin{itemize}
-\item Start from the Shen (1994) and Legendre bases, then compute the diagonalizing basis. (The columns of the matrix {\bf GQ} are the coefficients [in the Shen (1994) basis] of the diagonalizing basis that approximates the baroclinic modes.)
+\item Start from the Shen (1994) and Legendre bases, then compute the diagonalizing basis. (The columns of the matrix $\mat{G}^{-T}\mat{Q}$ are the coefficients [in the Shen (1994) basis] of the diagonalizing basis that approximates the baroclinic modes.)
 \item Construct the matrix that maps from (coordinates in the diagonalizing basis) $\to $ (values on the Gauss-Legendre quadrature nodes)
 \item Evolve the system in time by updating $q$ and $\vartheta^\pm$, then solving for $\psi$, etc.
 \end{itemize}
