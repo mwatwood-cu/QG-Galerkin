@@ -361,6 +361,7 @@ The linear instability analysis will in general proceed as follows
 \item Construct the matrices in (36) and pass the whole thing to a generalized eigenvalue solver, searcing for the eigenvalue with largest imaginary part. If the imaginary part of the eigenvalue is positive then there is exponential growth with rate $k_x$ times the imaginary part of $c$.
 \end{itemize}
 
+\noindent{\bf Eady}
 The Eady and `Green' problems simplify considerably, which is why they were considered in RYG16.
 In both the Eady and Green problems $\bar{q} = 0$, which implies $\bar{\mat{Q}}=0$.
 In the Eady problem we also have $\beta=0$.
@@ -390,7 +391,13 @@ The second part has $\hat{\bm{q}} = 0$, leaving only the $2\times 2$ subsystem
  (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right) = c\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{\vartheta}^-\end{array}\right).
 \end{equation}
-This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.
+This is where we expect instability, and eigenvalues are much easier to compute for this $2\times2$ system.\\
+
+\noindent{\bf Ocean-Charney}
+We will do a version of the ocean-Charney problem with only eastward-sheared Charney-type instability (no Phillips-type).
+This problem is interesting and a nice complement to the Eady problem because the instability has a long-wave cutoff but no short-wave cutoff (exactly the opposite of Eady).
+We will use
+\[\beta = 1, \quad\bar u(z) =2z^2,\quad\bar q = -4y,\quad\bar\vartheta^-=0,\quad\bar\vartheta^+=-4y.\]
 
 \clearpage
 \hrule
