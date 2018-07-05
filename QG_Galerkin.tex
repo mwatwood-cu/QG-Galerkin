@@ -401,7 +401,7 @@ One way to accomplish this is with an ocean-Charney problem where the unstable m
 We also want to demonstrate that we can handle non-constant stratification.
 One common non-constant stratification is to use an exponential profile for $N^2(z)$.
 Our ocean-Charney configuration with exponential stratification is
-\[\bar u = \frac{1}{54} \left(3 e^{6 z} (6 z-1)-2 e^6-1\right), \;\;\bar{q} = -2y,\;\;\beta = 1,\;\;\frac{f_0^2}{H^2N^2} = e^{6z},\;\;\bar\vartheta^+ = -2y,\;\;\bar{\vartheta}^-=0.\]
+\[\bar u = \frac{1}{54} \left(3 e^{6 z} (6 z-1)-2 e^6-1\right), \;\;\bar{q} = -2y,\;\;\beta = 1,\;\;\frac{f_0^2}{H^2N^2} = e^{-6z},\;\;\bar\vartheta^+ = -2y,\;\;\bar{\vartheta}^-=0.\]
 There are two main questions: how rapidly does the eigenvalue converge as a function of $\sN$ at fixed $k$ (e.g. for the fastest-growing mode), and how does the range of accurate growth rates grow with $\sN$.\\
 
 \hrule
@@ -446,7 +446,7 @@ The discrete version is
 
 The matrix $\bar{\mat{U}}_{FD}$ is diagonal with diagonal elements $\bar u(z_k)$.
 The matrix $\mat{L}_{FD}$ is tridiagonal with the form
-\[\mat{L}_{FD} = -\frac{1}{\Delta_z^2}\left[\begin{array}{ccccc}
+\[\mat{L}_{FD} = \frac{1}{\Delta_z^2}\left[\begin{array}{ccccc}
 S_1&-S_1&0&\cdots&0\\
 -S_1&S_1+S_2&-S_2&&\vdots\\
 \vdots&\ddots&\ddots&\ddots&\vdots\\
