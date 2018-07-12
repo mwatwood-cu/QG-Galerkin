@@ -342,9 +342,9 @@ Next we discretize the PV evolution equation (28) by inserting our Galerkin appr
 We can now write a generalized eigenvalue problem for $c$ as follows
 \begin{multline}
 \left[\begin{array}{c|c|c}
-\bar{u}_\sN^G(z=1)+(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^-)\\\hline
+\bar{u}_\sN^G(z=1)+(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B})&-(\pd{y}\bar\vartheta^+)(\bm{p}^+\cdot\bm{\psi}^-)\\\hline
 (\bar{\mat{Q}}_y+\beta\mat{M})\bm{\psi}^+&\bar{\mat{U}} -(\bar{\mat{Q}}_y+\beta\mat{M})\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1} \mat{B}&-(\bar{\mat{Q}}_y+\beta\mat{M})\bm{\psi}^-\\\hline
- (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B}))&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
+ (\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^+)&-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\left((k_x^2+k_y^2)\mat{M}+\mat{L}\right)^{-1}\mat{B})&\bar{u}_\sN^G(z=0)-(\pd{y}\bar\vartheta^-)(\bm{p}^-\cdot\bm{\psi}^-)
 \end{array}\right]\left(\begin{array}{c}\hat{\vartheta}^+\\\hat{q}\\\hat{\vartheta}^-\end{array}\right) = \\
 c\left[\begin{array}{c|c|c}
 1&0&0\\\hline
