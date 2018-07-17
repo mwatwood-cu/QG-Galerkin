@@ -295,8 +295,9 @@ The following should be a correct formulation.
 To use our Galerkin formulation we need to represent the equilibrium solution using our Galerkin bases.
 The first step would be to compute the Galerkin coefficients of $\pd{y}\bar q$, which are 
 \begin{equation}
-(\pd{y}\bar q)_n = \int_0^1 p_n^q(z)(\pd{y}\bar q)\text{d}z.
+(\pd{y}\bar q)_n = \frac{\int_0^1 p_n^q(z)(\pd{y}\bar q)\text{d}z}{\int_0^1 (p_n^q(z))^2\text{d}z}.
 \end{equation}
+(Note that the above expression assumes that the basis functions $p_n^q$ are $L^2$-orthogonal.)
 The Eady equilibrium has $\bar q=0$, which can be represented exactly in our Galerkin basis (and any basis).
 Our standard PV inversion says that we can obtain the Galerkin coefficients of $\bar u$ (in the basis $p_n^\psi$) by solving the system
 \begin{equation}
