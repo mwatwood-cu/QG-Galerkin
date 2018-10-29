@@ -23,9 +23,9 @@
 \maketitle
 
 The traditional inviscid, unforced continuously-stratified QG equations are
-\begin{gather}
-\pd{t}\vartheta^+ + \tJ[\psi^+,\vartheta^+] = 0\\
-\pd{t}q+\tJ[\psi,q]+\beta v = 0\\
+\begin{gather}\label{eqn:QG1}
+\pd{t}\vartheta^+ + \tJ[\psi^+,\vartheta^+] = 0\\\label{eqn:QG2}
+\pd{t}q+\tJ[\psi,q]+\beta v = 0\\\label{eqn:QG3}
 \pd{t}\vartheta^-+ \tJ[\psi^-,\vartheta^-] = 0\\
 \nabla_h^2\psi + \pd{z}\left(S(z)\pd{z}\psi\right) = q,\quad S(z) = \frac{f_0^2}{H^2N^2(z)}
 \end{gather}
@@ -457,6 +457,57 @@ S_1&-S_1&0&\cdots&0\\
 \end{array}\right]\]
 
 The matrix $\bar{\mat{Q}}_{y,FD}$ is also diagonal.
-If we define a vector $\bar{\bm{u}}$ whose elements are $\bar u(z_k)$, the diagonal elements of $\bar{\mat{Q}}_{y,FD}$ are the elements of the vector $\mat{L}_{FD}\bar{\bm{u}}$.
+If we define a vector $\bar{\bm{u}}$ whose elements are $\bar u(z_k)$, the diagonal elements of $\bar{\mat{Q}}_{y,FD}$ are the elements of the vector $\mat{L}_{FD}\bar{\bm{u}}$.\\
 
+\hrule
+\begin{center}{\bf Two-Surface QG}\end{center}
+Equations (\ref{eqn:QG1})--(\ref{eqn:QG3}) with $\beta=0$ have exact solutions with $q=0$.
+We can further simplify to the case $S(z) = 1$.
+In this case, the solutions solve the following reduced set of equations
+\begin{gather}
+\pd{t}\vartheta^+ + \tJ[\psi^+,\vartheta^+] = 0\\
+\pd{t}\vartheta^-+ \tJ[\psi^-,\vartheta^-] = 0\\
+\nabla_h^2\psi + \pd{z}^2\psi = 0
+\end{gather}
+where 
+\begin{equation}
+\vartheta^\pm= \pd{z}\psi\text{ at }z=0,1.
+\end{equation}
+We can apply our new method and finite differences to solve this problem.
+The analytical solution of the PV inversion is also available in the case of a periodic domain (horizontally), so we can use that for comparison too.
+Taking the Fourier transform of the PV inversion yields
+\[-k^2\hat{\psi}+\pd{z}^2\hat{\psi} = 0,\;\;\hat{\vartheta}^\pm = \pd{z}\hat{\psi}\text{ at }z=0,1.\]
+The exact solution is
+\[\hat{\psi}(z) = \hat{\vartheta}^+\frac{\text{csch}(k)\cosh(kz)}{k}-\hat{\vartheta}^-\frac{\text{csch}(k)\cosh(k(1-z))}{k}.\]
+To evolve the solution you only need $\psi^\pm$, which are
+\[\hat{\psi}^+ = \hat{\vartheta}^+\frac{\text{coth}(k)}{k}-\hat{\vartheta}^-\frac{\text{csch}(k)}{k},\;\;\hat{\psi}^- = \hat{\vartheta}^+\frac{\text{csch}(k)}{k}-\hat{\vartheta}^-\frac{\text{coth}(k)}{k}.\]
+The Legendre-Galerkin discrete version for the full inversion is
+\[\hat{\bm{\psi}} = \hat{\vartheta}^+\bm{\psi}^+-\hat{\vartheta}^-\bm{\psi}^-\]
+This is just the vector of Galerkin coefficients.
+Evaluating at $z=0,1$ yields
+\[\hat{\psi}_\sN^+ = \hat{\vartheta}^+(\bm{p}^+\cdot\bm{\psi}^+) - \hat{\vartheta}^-(\bm{p}^+\cdot\bm{\psi}^-)\]
+\[\hat{\psi}_\sN^- = \hat{\vartheta}^+(\bm{p}^-\cdot\bm{\psi}^+) - \hat{\vartheta}^-(\bm{p}^-\cdot\bm{\psi}^-)\]
+In the finite difference version we need to solve
+\[(k^2\mat{I}+\mat{L})\vec{\psi} = \frac{\hat{\vartheta}^+}{\Delta_z}\vec{e}_\sN - \frac{\hat{\vartheta}^-}{\Delta_z}\vec{e}_1\]
+where $\vec{e}_i$ is the $i^\text{th}$ column of the identity matrix.
+So the values at the boundaries are
+\[\vec{\psi}^+ = \hat{\vartheta}^+\frac{\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}}{\Delta_z} - \hat{\vartheta}^-\frac{\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}}{\Delta_z}\]
+\[\vec{\psi}^- = \hat{\vartheta}^+\frac{\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}}{\Delta_z} - \hat{\vartheta}^-\frac{\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}}{\Delta_z}\]
+We can define $2\times2$ inversion matrices for each approach, and then compare them:
+\[\mat{R}_{\text{exact}} = \frac{1}{k}\left[\begin{array}{cc}
+\text{coth}(k)&-\text{csch}(k)\\
+\text{csch}(k)&-\text{coth}(k)
+\end{array}\right]\]
+\[\mat{R}_{\text{Galerkin}} =\left[\begin{array}{cc}
+\bm{p}^+\cdot\bm{\psi}^+&-\bm{p}^+\cdot\bm{\psi}^-\\
+\bm{p}^-\cdot\bm{\psi}^+&-\bm{p}^-\cdot\bm{\psi}^-
+\end{array}\right]\]
+\[\mat{R}_{\text{FD}} = \frac{1}{\Delta_z}\left[\begin{array}{cc}
+\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}&-\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}\\
+\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}&-\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}
+\end{array}\right]\]
+We can compare, e.g., the matrix 2-norms $\|\mat{R}_\text{exact}-\mat{R}_\text{Galerkin}\|_2$ and $\|\mat{R}_\text{exact}-\mat{R}_\text{FD}\|_2$.
+We can plot these as functions of $k$ for a variety of $\sN$, or vice versa, or just do a 2D plot $(k,\sN)$.\\
+
+Once we have these matrices we can use them to run fully nonlinear solutions of the reduced (two surface) set of equations.
 \end{document}
