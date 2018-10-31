@@ -405,6 +405,8 @@ Our ocean-Charney configuration with exponential stratification is
 \[\bar u = \frac{1}{54} \left(3 e^{6 z} (6 z-1)-2 e^6-1\right), \;\;\bar{q} = -2y,\;\;\beta = 1,\;\;\frac{f_0^2}{H^2N^2} = e^{-6z},\;\;\bar\vartheta^+ = -2y,\;\;\bar{\vartheta}^-=0.\]
 There are two main questions: how rapidly does the eigenvalue converge as a function of $\sN$ at fixed $k$ (e.g. for the fastest-growing mode), and how does the range of accurate growth rates grow with $\sN$.\\
 
+{\bf I think we ought to be able to add linear stability using Chebyshev with Dedalus. Hopefully without too much trouble.}\\
+
 \hrule
 \begin{center}{\bf Linear stability problem: Finite Difference}\end{center}
 The standard vertical discretization method for both linear and nonlinear QG is a finite difference approximation.
@@ -493,6 +495,10 @@ where $\vec{e}_i$ is the $i^\text{th}$ column of the identity matrix.
 So the values at the boundaries are
 \[\vec{\psi}^+ = \hat{\vartheta}^+\frac{\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}}{\Delta_z} - \hat{\vartheta}^-\frac{\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}}{\Delta_z}\]
 \[\vec{\psi}^- = \hat{\vartheta}^+\frac{\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}}{\Delta_z} - \hat{\vartheta}^-\frac{\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}}{\Delta_z}\]
+In the Chebyshev version we'll have a straightforward discretization of $-k^2\hat{\psi}+\pd{z}^2\hat{\psi} = 0$ with Neumann BCs.
+We can use a $\tau$-line approach for simplicity.
+We'll compute 2 vectors consisting of Chebyshev coefficients of the part of the solution corresponding to $\hat{\vartheta}^\pm$, then we'll take the dot product with a vector of Chebyshev polynomials evaluated at $z=0,1$ to get the value of $\hat{\psi}$ at $z=0,1$.\\
+
 We can define $2\times2$ inversion matrices for each approach, and then compare them:
 \[\mat{R}_{\text{exact}} = \frac{1}{k}\left[\begin{array}{cc}
 \text{coth}(k)&-\text{csch}(k)\\
