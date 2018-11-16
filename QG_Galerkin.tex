@@ -405,8 +405,6 @@ Our ocean-Charney configuration with exponential stratification is
 \[\bar u = \frac{1}{54} \left(3 e^{6 z} (6 z-1)-2 e^6-1\right), \;\;\bar{q} = -2y,\;\;\beta = 1,\;\;\frac{f_0^2}{H^2N^2} = e^{-6z},\;\;\bar\vartheta^+ = -2y,\;\;\bar{\vartheta}^-=0.\]
 There are two main questions: how rapidly does the eigenvalue converge as a function of $\sN$ at fixed $k$ (e.g. for the fastest-growing mode), and how does the range of accurate growth rates grow with $\sN$.\\
 
-{\bf I think we ought to be able to add linear stability using Chebyshev with Dedalus. Hopefully without too much trouble.}\\
-
 \hrule
 \begin{center}{\bf Linear stability problem: Finite Difference}\end{center}
 The standard vertical discretization method for both linear and nonlinear QG is a finite difference approximation.
@@ -460,6 +458,68 @@ S_1&-S_1&0&\cdots&0\\
 
 The matrix $\bar{\mat{Q}}_{y,FD}$ is also diagonal.
 If we define a vector $\bar{\bm{u}}$ whose elements are $\bar u(z_k)$, the diagonal elements of $\bar{\mat{Q}}_{y,FD}$ are the elements of the vector $\mat{L}_{FD}\bar{\bm{u}}$.\\
+
+\hrule
+\begin{center}{\bf Linear stability problem: Chebyshev Collocation}\end{center}
+We will implement for comparison a spectral collocation method that is not energy-consercing. 
+(Collocation basically means that the method is based on interpolation rather than on least-squares approximation.)
+Values of $\psi$ are tracked on the Chebyshev grid (sometimes called Chebyshev-Lobatto points or Chebyshev points of the second kind).
+These are
+\[\hat{z}_j = \cos\left(\frac{j\pi}{n}\right),\;\;j=0,\ldots,n\]
+where $\sN=n+1$ is the total number of points.
+Note the weird convention that the points start at 1 and go to -1.
+If you interpolate the $\psi$ at these points and then compute the derivative of the interpolating polynomial and then re-evaluate at these points you get a spectral collocation approximation to the derivative (at these points).
+The matrix that corresponds to this sequence of operations is $\mat{D}$, and there are several closed-form expressions for its elements.
+From Canuto, Hussaini, Quarteroni, and Zhang (2006), expression (2.4.33):
+\[\mat{D}_{jl} = \left\{\begin{array}{ll}
+-\frac{\bar{c}_j}{2\bar{c}_l}\frac{(-1)^{j+l}}{\sin[(j+l)\pi/(2n)]\sin[(j-l)\pi/(2n)]}&j\neq l\\
+-\frac{\hat{z}_j}{2\sin^2(j\pi/n)}&1\le j=l\le n-1\\
+\frac{2n^2+1}{6}&j=l=0\\
+-\frac{2n^2+1}{6}&j=l=n
+\end{array}\right.\]
+where
+\[\bar{c}_j = \left\{\begin{array}{ll}
+2&j=0,n\\
+1&j=1,\ldots,n-1.\end{array}\right.\]
+Rather than deal with the weird backwards convention on the nodes, we'll just reverse the order of both the rows and the columns of $\mat{D}$, yielding $\tilde{\mat{D}}$.
+We are dealing with the interval $[0,1]$ rather than $[-1,1]$ so we will multiply all derivatives by 2.
+
+We will discretize the linear stability problem as follows.
+The first row will correspond to the bottom boundary condition in the linear stability problem [(19c) in the manuscript], with $b^-=\pd{z}\psi^-$: 
+\[\bar{u}^-\pd{z}\hat{\psi}^-+(\pd{y}\bar{b}^+)\hat{\psi}^- = c\pd{z}\hat{\psi}^-.\]
+Let $\bm{d}_1^T$ denote the first row of $\tilde{\mat{D}}$, and note that if $\hat{\bm{\psi}}$ is a vector containing the values of $\hat{\psi}$ on the (reversed) Chebyshev grid then $2\bm{d}_1^T\hat{\bm{\psi}}$ is the spectral collocation approximation to $\pd{z}\hat{\psi}$ at $z=0$.
+So the first row of the generalized eigenvalue problem corresponding to the discretized linear stability problem will be
+\[(2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^+)\bm{e}_1^T)\hat{\bm{\psi}} = 2c\bm{d}_1^T\hat{\bm{\psi}}\]
+where $\bm{e}_1$ is the first standard basis vector.
+
+Next we turn to the interior part of the linear stability problem, (19b) in the manuscript.
+This equation is in terms of $\hat{q}$, but we want it in terms of $\hat{\psi}$ so we have to deal with the PV inversion
+\[-k^2\hat{\psi} + \pd{z}\left(S(z)\pd{z}\hat{\psi}\right) = \hat{q}.\]
+The Chebyshev collocation approximation to this equation is
+\[\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right]\hat{\bm{\psi}} = \hat{\bm{q}}\]
+where $\mat{S}$ is a diagonal matrix with values $S(z_j)$ where $z_j$ are the Chebyshev points scaled to $[0,1]$ and reversed (i.e. in {\it ascending} order).
+We are only going to use this approximation in the linear stability problem equation (19b) in the manuscript {\it at the interior points}, i.e. we will only use the middle rows of the above matrix equation, not the first or the last.
+The middle rows of the generalized eigenvalue problem corresponding to the discretized linear stability problem will be the middle rows of 
+\[\left[\bar{\mat{U}}\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right] +\left(\bar{\mat{Q}}_y+\beta\mat{I}\right)\right]\hat{\bm{\psi}} = c\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right]\hat{\bm{\psi}}\]
+where $\bar{\mat{U}}$ and $\bar{\mat{Q}}_y$ are diagonal matrices with diagonal elements $\bar{u}(z_j)$ and $\pd{y}\bar{q}(z_j)$ respectively.
+
+Finally, the last row will correspond to the top boundary condition in the linear stability problem [(19a) in the manuscript], with $b^+=\pd{z}\psi^+$: 
+\[\bar{u}^+\pd{z}\hat{\psi}^++(\pd{y}\bar{b}^+)\hat{\psi}^+ = c\pd{z}\hat{\psi}^+.\]
+Using the same arguments as the bottom boundary condition we arrive at the following equation
+\[(2\bar{u}^+\bm{d}_{n+1}^T+(\pd{y}\bar{b}^+)\bm{e}_{n+1}^T)\hat{\bm{\psi}} = 2c\bm{d}_{n+1}^T\hat{\bm{\psi}}\]
+where $\bm{d}_{n+1}^T$ is the last row of $\tilde{\mat{D}}$.
+
+In summary, the generalized eigenvalue problem has the form
+\[\mat{A}\hat{\bm{\psi}} = c\mat{B}\hat{\bm{\psi}}\]
+where {\bf A} and {\bf B} are both $n+1\times n+1$.
+\begin{itemize}
+\item The first row of {\bf A} is $2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^+)\bm{e}_1^T$
+\item The first row of {\bf B} is $2\bm{d}_1^T$
+\item The middle rows of {\bf A} are the middle rows of $\left[\bar{\mat{U}}\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right] +\left(\bar{\mat{Q}}_y+\beta\mat{I}\right)\right]$
+\item The middle rows of {\bf B} are the middle rows of $\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right]$
+\item The last row of {\bf A} is $2\bar{u}^+\bm{d}_{n+1}^T+(\pd{y}\bar{b}^+)\bm{e}_{n+1}^T$
+\item The last row of {\bf B} is $2\bm{d}_{n+1}^T$
+\end{itemize}
 
 \hrule
 \begin{center}{\bf Two-Surface QG}\end{center}
