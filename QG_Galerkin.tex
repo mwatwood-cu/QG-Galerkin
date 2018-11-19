@@ -486,10 +486,10 @@ We are dealing with the interval $[0,1]$ rather than $[-1,1]$ so we will multipl
 
 We will discretize the linear stability problem as follows.
 The first row will correspond to the bottom boundary condition in the linear stability problem [(19c) in the manuscript], with $b^-=\pd{z}\psi^-$: 
-\[\bar{u}^-\pd{z}\hat{\psi}^-+(\pd{y}\bar{b}^+)\hat{\psi}^- = c\pd{z}\hat{\psi}^-.\]
+\[\bar{u}^-\pd{z}\hat{\psi}^-+(\pd{y}\bar{b}^-)\hat{\psi}^- = c\pd{z}\hat{\psi}^-.\]
 Let $\bm{d}_1^T$ denote the first row of $\tilde{\mat{D}}$, and note that if $\hat{\bm{\psi}}$ is a vector containing the values of $\hat{\psi}$ on the (reversed) Chebyshev grid then $2\bm{d}_1^T\hat{\bm{\psi}}$ is the spectral collocation approximation to $\pd{z}\hat{\psi}$ at $z=0$.
 So the first row of the generalized eigenvalue problem corresponding to the discretized linear stability problem will be
-\[(2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^+)\bm{e}_1^T)\hat{\bm{\psi}} = 2c\bm{d}_1^T\hat{\bm{\psi}}\]
+\[(2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^-)\bm{e}_1^T)\hat{\bm{\psi}} = 2c\bm{d}_1^T\hat{\bm{\psi}}\]
 where $\bm{e}_1$ is the first standard basis vector.
 
 Next we turn to the interior part of the linear stability problem, (19b) in the manuscript.
@@ -513,7 +513,7 @@ In summary, the generalized eigenvalue problem has the form
 \[\mat{A}\hat{\bm{\psi}} = c\mat{B}\hat{\bm{\psi}}\]
 where {\bf A} and {\bf B} are both $n+1\times n+1$.
 \begin{itemize}
-\item The first row of {\bf A} is $2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^+)\bm{e}_1^T$
+\item The first row of {\bf A} is $2\bar{u}^-\bm{d}_1^T+(\pd{y}\bar{b}^-)\bm{e}_1^T$
 \item The first row of {\bf B} is $2\bm{d}_1^T$
 \item The middle rows of {\bf A} are the middle rows of $\left[\bar{\mat{U}}\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right] +\left(\bar{\mat{Q}}_y+\beta\mat{I}\right)\right]$
 \item The middle rows of {\bf B} are the middle rows of $\left[-k^2\mat{I}+4\tilde{\mat{D}}\mat{S}\tilde{\mat{D}}\right]$
@@ -572,8 +572,12 @@ We can define $2\times2$ inversion matrices for each approach, and then compare 
 \vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}&-\vec{e}_\sN\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}\\
 \vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{\sN}&-\vec{e}_1\cdot\left[k^2\mat{I}+\mat{L}\right]^{-1}\vec{e}_{1}
 \end{array}\right]\]
-We can compare, e.g., the matrix 2-norms $\|\mat{R}_\text{exact}-\mat{R}_\text{Galerkin}\|_2$ and $\|\mat{R}_\text{exact}-\mat{R}_\text{FD}\|_2$.
-We can plot these as functions of $k$ for a variety of $\sN$, or vice versa, or just do a 2D plot $(k,\sN)$.\\
+\[\mat{R}_{\text{Cheby}} = \left[\begin{array}{cc}
+\bm{e}_\sN\cdot\mat{B}^{-1}\bm{e}_\sN&\bm{e}_\sN\cdot\mat{B}^{-1}\bm{e}_1\\
+\bm{e}_1\cdot\mat{B}^{-1}\bm{e}_\sN&\bm{e}_1\cdot\mat{B}^{-1}\bm{e}_1
+\end{array}\right]\]
+%We can compare, e.g., the matrix 2-norms $\|\mat{R}_\text{exact}-\mat{R}_\text{Galerkin}\|_2$ and $\|\mat{R}_\text{exact}-\mat{R}_\text{FD}\|_2$.
+%We can plot these as functions of $k$ for a variety of $\sN$, or vice versa, or just do a 2D plot $(k,\sN)$. I did these tests: Not super instructive.\\
 
 Once we have these matrices we can use them to run fully nonlinear solutions of the reduced (two surface) set of equations.
 \end{document}
