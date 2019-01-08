@@ -47,6 +47,7 @@ end
 
 function L_ij(sizeN::Int64, S::Function)
     fullArray = zeros(sizeN,sizeN)
+    nodePoints = sizeN + 2
     values, weights = gausslegendre(nodePoints)
     for i=0:sizeN-1
         for j=i:sizeN-1
@@ -82,6 +83,7 @@ end
 
 function U_ij(sizeN::Int64, u_galerkin_coefficients)
     fullArray = zeros(sizeN,sizeN)
+    nodePoints = sizeN + 2
     values, weights = gausslegendre(nodePoints)
     for i=0:sizeN-1
         for j=0:sizeN-1
@@ -89,7 +91,7 @@ function U_ij(sizeN::Int64, u_galerkin_coefficients)
             for k=0:nodePoints-1
                 p_psi = jacobi(values[k+1],i,0,0)+b_n(i)*jacobi(values[k+1],i+2,0,0)
                 p_q = jacobi(values[k+1],j,0,0)
-                u_galerk = u_galerkin(size, u_galerkin_coefficients, (values[k+1]+1.)/2.)
+                u_galerk = u_galerkin(sizeN, u_galerkin_coefficients, (values[k+1]+1.)/2.)
                 sumTotal = sumTotal + weights[k+1]*p_psi*p_q*u_galerk
             end
             fullArray[i+1, j+1] = .5*sumTotal
@@ -100,12 +102,13 @@ end
 
 function Q_ij(sizeN::Int64, dq_galerkin_coefficients)
     fullArray = zeros(sizeN,sizeN)
+    nodePoints = sizeN + 2
     values, weights = gausslegendre(nodePoints)
     for i=0:sizeN-1
         for j=i:sizeN-1
             sumTotal = 0
             for k=0:nodePoints-1
-                dq_galerk = dq_galerkin(size, dq_galerkin_coefficients, (values[k+1]+1.)/2.)
+                dq_galerk = dq_galerkin(sizeN, dq_galerkin_coefficients, (values[k+1]+1.)/2.)
                 p_psi_i = jacobi(values[k+1],i,0,0)+b_n(i)*jacobi(values[k+1],i+2,0,0)
                 p_psi_j = jacobi(values[k+1],j,0,0)+b_n(j)*jacobi(values[k+1],j+2,0,0)
                 sumTotal = sumTotal + weights[k+1]*dq_galerk*p_psi_i*p_psi_j
@@ -126,6 +129,7 @@ end
 
 function dq_galerkin_coefficients(sizeN::Int64, dq_bar::Function)
     fullArray = zeros(sizeN)
+    nodePoints = sizeN + 2
     values, weights = gausslegendre(nodePoints)
     for i =0:sizeN-1
         sumTotal = 0
@@ -185,10 +189,9 @@ function u_galerkin_coefficients(sizeN::Int64, dq_coefficients, dvt_plus, dvt_mi
     return prepend!(coefficients,[first_u_coefficient])
 end
 
-function u_galerkin(sizeN::Int64, coefficients, value)
+function u_galerkin(sizeN::Int64, coefficients, value::Float64)
     sumTotal = 0
     for i=0:sizeN-1
-        nextCoe = coefficients[i+1]
         sumTotal = sumTotal + coefficients[i+1]*(jacobi(2.0*value -1., i, 0,0)+b_n(i)*jacobi(2.0*value -1.,i+2,0,0))
     end
     return sumTotal

@@ -130,7 +130,6 @@ function growthRateEigenValues_Cheb(sizeOfMatrix, beta_value, ky, kxValues, S::F
     L = L_Cheb(sizeOfMatrix, S)
     Q = Q_Cheb(sizeOfMatrix, dq)
     D = chebyshevDM(sizeOfMatrix)
-    #println("FD Matrices Computed")
     
     steps = length(kxValues)
     
@@ -138,7 +137,6 @@ function growthRateEigenValues_Cheb(sizeOfMatrix, beta_value, ky, kxValues, S::F
     waveSpeeds = zeros(steps)
     eigenvectors = []
     for i=1:steps
-        #println()
         kx = kxValues[i]
         lhs = U*(Diagonal(zeros(sizeOfMatrix).+(kx^2+ky^2))+L) - (Q+Diagonal(zeros(sizeOfMatrix).+beta_value))
         rhs = Diagonal(zeros(sizeOfMatrix).+(kx^2+ky^2))+L
@@ -169,16 +167,14 @@ function createFourStabilityPlots_Cheb(sizeOfMatrix, S_function, growthRates, ei
 
     highVector = eigenvectors[maxIndex]
     vectorSize = length(highVector)
-    println(size(Diagonal(zeros(sizeOfMatrix).+(maxKx^2+ky^2))))
-    psi_coeffs = (-Diagonal(zeros(sizeOfMatrix).+(maxKx^2+ky^2))+L)\highVector
+    psi = (-Diagonal(zeros(sizeOfMatrix).+(maxKx^2+ky^2))+L)\highVector
     
-    heights = collect(LinRange(0,1,100))
+    heights = collect(LinRange(0,1,sizeOfMatrix))
     psi_angles = zeros(length(heights))
     psi_amps = zeros(length(heights))
     for i=1:length(heights)
-        psi_val = galerkin_p_psi_print(sizeOfMatrix, psi_coeffs, heights[i])
-        psi_angles[i] = angle(psi_val)
-        psi_amps[i] = abs(psi_val)
+        psi_angles[i] = angle(psi[i])
+        psi_amps[i] = abs(psi[i])
     end
 
     fig, axes = subplots(2,2)
