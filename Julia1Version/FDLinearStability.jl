@@ -82,6 +82,10 @@ function growthRateEigenValues_fd(sizeN, beta_value, ky, kxValues, S_function, u
         append!(eigenvectors, [eigenObject.vectors[:,max_ind]])
         waveSpeeds[i] = real(eigenObject.values[max_ind])
         growthRates[i] = max_im*kx
+        # If the largest growth rate is zero then there are usually lots of eigenvalues with growth rate 0, and it's hard to pick out which one contains the 'correct' wave speed. Instead we just set the wave speed to NaN since we're mainly interested in growing/unstable modes.
+        if growthRates[i] == 0.0
+            waveSpeeds[i] = NaN
+        end
     end
     return growthRates, eigenvectors, waveSpeeds
 end

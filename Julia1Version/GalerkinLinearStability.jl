@@ -292,6 +292,10 @@ function getStabilityValues(eigenObjectsArray, kxValues)
         waveSpeeds[i] = real(eigenObjectsArray[i].values[max_ind])
         minWaveSpeeds[i] = minimum(real(eigenObjectsArray[i].values))
         growthRates[i] = max_im*kx
+        # If the largest growth rate is zero then there are usually lots of eigenvalues with growth rate 0, and it's hard to pick out which one contains the 'correct' wave speed. Instead we just set the wave speed to NaN since we're mainly interested in growing/unstable modes.
+        if growthRates[i] == 0.0
+            waveSpeeds[i] = NaN
+        end
     end
     
     return growthRates, eigenvectors, waveSpeeds
